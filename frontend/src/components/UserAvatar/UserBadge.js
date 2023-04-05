@@ -2,11 +2,9 @@ import React from 'react'
 
 const UserBadge = ({user,handleFunction}) => {
   return (
-    <div style={{borderRadius:"large",fontSize:"12px",background:"green",color:"white",cursor:"pointer",borderEndEndRadius:"large",borderStartStartRadius:"large",margin:"2px",padding:"2px"}} onClick={handleFunction}>
-      {user.name}
-      {/* <i className='fa fa-close'></i> */}
-      <i className="fas fa-bell" style={{color:"black"}}></i>
-      {/* <i className="fas fa-bell" style={{padding:"15px 10px",size:"50px",color:"black"}}></i> */}
+    <div style={{display:"flex",flexDirection:"row", borderRadius:"10px",fontSize:"15px",background:"#6666cc",color:"white",cursor:"pointer",margin:"2px",padding:"5px"}} onClick={handleFunction}>
+      <div style={{padding:"2px"}}>{user.name}</div>
+      <i className="fas fa-user-times" style={{color:"white",padding:"2px",margin:"2px"}}></i>
     </div>
   )
 }

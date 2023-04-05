@@ -5,7 +5,7 @@ const userModel=mongoose.Schema({
       name:{type:String,required:true},
       email:{type:String,required:true,unique:true},
       password:{type:String,required:true},
-      avatar:{type:String,required:true,default:"https://st4.depositphotos.com/14903220/22197/v/1600/depositphotos_221970610-stock-illustration-abstract-sign-avatar-icon-profile.jpg"},
+      avatar:{type:String,default:"https://st4.depositphotos.com/14903220/22197/v/1600/depositphotos_221970610-stock-illustration-abstract-sign-avatar-icon-profile.jpg"},
 },
 {
       timestamps:true,

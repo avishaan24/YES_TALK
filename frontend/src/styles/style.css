@@ -1,0 +1,32 @@
+.large{
+    width:100%;
+    height:100vh;
+    background-image: url("../Images/Home.jpg");
+}
+
+.login_box{
+    margin: 8vh auto;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 10px;
+}
+
+.button{
+    background-color: blue;
+    padding: 10px;
+    height: 6vh;
+    font-size: 2.6vh;
+    align-items: center;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    border:transparent;
+    font-weight: regular;
+    color:white;
+}
+
+.chat_large{
+    width: 100%;
+    height:100vh;
+    background-image: url("../Images/chat.jpg");
+}

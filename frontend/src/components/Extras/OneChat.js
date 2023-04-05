@@ -8,7 +8,9 @@ import {useToast} from "@chakra-ui/react"
 import ChatScroll from './ChatScroll';
 import io from "socket.io-client";
 import Lottie from "lottie-react";
-import animationTyping from "../../Design_&_Animations/typing.json"
+import animationData from "../../Design_&_Animations/132124-hands-typing-on-keyboard.json"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ENDPOINT="http://localhost:5000";
 var socket,selectedChatCompare; 
@@ -23,12 +25,12 @@ const OneChat = ({fetchAgain,setFetchAgain}) => {
       const [istyping, setIsTyping] = useState(false);
       const toast=useToast();
 
-      const defaultOption={
-        loop:true,
-        autoplay:true,
-        animationData:{animationTyping},
-        rendererSettings:{
-          preserveAspectRatio:"xMidYMid slice"
+      const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
         }
       }
 
@@ -46,12 +48,15 @@ const OneChat = ({fetchAgain,setFetchAgain}) => {
           setLoading(false);
           socket.emit('join chat',selectedChat._id);
         } catch (error) {
-          toast({
-            title: "Error while fetching message",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom-left",
+          toast.error("Error while fetching message", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
         }
       };
@@ -75,12 +80,15 @@ const OneChat = ({fetchAgain,setFetchAgain}) => {
             socket.emit("new message",data);
             setMessage([...message,data]);
           } catch (error) {
-            toast({
-              title: "Error while sending message",
-              status: "error",
-              duration: 5000,
-              isClosable: true,
-              position: "bottom-left",
+            toast.error("Error in sending message", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
             });
           }
         }
@@ -139,42 +147,53 @@ const OneChat = ({fetchAgain,setFetchAgain}) => {
     <>
     {selectedChat?(
       <>
-            <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center",fontSize:"30px"}}>
+            <div style={{width:"96%",display:"flex",justifyContent:"space-between",alignItems:"center",fontSize:"30px",background:"#535379",margin:"5px 20px",color:"white"}}>
             {(!selectedChat.isGroupChat ? (
                 <>
-                {getSender(user,selectedChat.users)}
+                <div onClick={()=>setSelectedChat()} className="flex sm:hidden">
+                  <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div style={{display:"flex",flexDirection:"row"}}>
+                  {getSender(user,selectedChat.users)}
+                  <div>
+                    {istyping?(<div style={{margin:"1.5vh 1.5vw"}}>
+                      <Lottie animationData={animationData} loop={true} style={{width:"100%",height:"3vh"}}/>
+                    </div>):(<></>)}
+                  </div>
+                </div>
                 <ProfileModal user={getSenderAll(user,selectedChat.users)}/>
                 </>
               ) : (
                 <>
+                <div onClick={()=>setSelectedChat()} className="flex sm:hidden">
+                  <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div style={{display:"flex",flexDirection:"row"}}>
                   {selectedChat.chatName.toUpperCase()}
+                  <div>
+                    {istyping?(<div style={{margin:"1.5vh 1.5vw"}}>
+                      <Lottie animationData={animationData} loop={true} style={{width:"100%",height:"3vh"}}/>
+                    </div>):(<></>)}
+                  </div>
+                </div>
                   <UpdateGroupModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                 </>
               ))}
             </div>
-            <div>
-            {istyping?(<div>
-              Hello
-              <Lottie
-              options={defaultOption}
-              width={70}
-              />
-            </div>):(<></>)}
-            </div>
-            <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"#E8E8E8",width:"100%",height:"100%",borderRadius:"lg",overflowY:"hidden"}}>
+            <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"#7575a3",width:"96%",height:"100%",borderRadius:"10px",overflowY:"hidden",margin:"8px"}}>
               {loading?(
                 <>Loading</>
               ):(
                 <>
-                  <div style={{display:"flex",flexDirection:"column",overflowY:"scroll",scrollbarWidth:"none"}}>
+                  <div style={{display:"flex",flexDirection:"column",overflowY:"scroll",scrollbarWidth:"none",padding:"10px"}}>
                     <ChatScroll message={message}/>
                   </div>
                 </>
               )}
             </div>
-            <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"#E8E8E8",width:"100%",borderRadius:"lg",overflowY:"hidden",paddingTop:"10px"}} onKeyDown={sendMessage}>
-              <input type="text" placeholder="Enter a message" onChange={typingHandler} style={{background:"#E0E0E0",borderColor:"blue"}} value={newMessage} required/>
-            </div>
+            {/* <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"#c2c2d6",width:"96%",borderRadius:"10px",overflowY:"hidden",paddingTop:"10px"}}> */}
+              <input type="text" placeholder="Enter a message" onChange={typingHandler}  onKeyDown={sendMessage} style={{background:"#3d3d5c",borderRadius:"10px",width:"96%",height:"6vh",color:"white",padding:"0px 1.2vw"}} value={newMessage} required/>
+            {/* </div> */}
       </>
     ):(
           <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%"}}>
